@@ -14,11 +14,23 @@ A platformer for your terminal, written as one C file shaped like a Walkman wear
 cc walkman.c -o walkman -lm && ./walkman
 ```
 
-The same line works on macOS and Linux. Use a terminal with 24-bit color, at least 64x24; a bigger window shows more of the world.
+The same line works on macOS and Linux. On Windows, build it with GCC in an [MSYS2](https://www.msys2.org) MinGW shell (MINGW64, UCRT64 or CLANG64), where [`win32/`](win32) stands in for the Unix calls the game makes:
+
+```sh
+cc -Iwin32 walkman.c win32/compat.c -o walkman -lm -lwinmm && ./walkman
+```
+
+Or let the [`Makefile`](Makefile) pick the right line on any of the three:
+
+```sh
+make run     # also: make readable, make dev, make test, make clean
+```
+
+Use a terminal with 24-bit color, at least 64x24; a bigger window shows more of the world.
 
 **SPACE** jumps (so do ↑, W, K and Enter). **Q** quits.
 
-The music is synthesized when the game starts, written to `/tmp/walkman-*.wav` and played with `afplay` on macOS or `aplay` on Linux (from alsa-utils). Without either one, it plays silently.
+The music is synthesized when the game starts, written to `/tmp/walkman-*.wav` and played with `afplay` on macOS or `aplay` on Linux (from alsa-utils). Without either one, it plays silently. On Windows the files go to your temp folder and play through the wave device, with nothing to install.
 
 ## The game
 
